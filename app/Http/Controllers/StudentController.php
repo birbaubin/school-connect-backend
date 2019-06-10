@@ -76,13 +76,20 @@ class StudentController extends Controller
             return $this->sendError('Ce étudiant n\'existe pas dans le système', 404);
 
         $emailOwner = DB::table('users')->where(['email'=>$request->email, 'userType'=>'student'])->first();
-        if($emailOwner->id!=$student->id)
-            return $this->sendError('Un étudiant avec cet email existe déjà', 403);
+        if(!is_null($emailOwner))
+        {
+            if($emailOwner->id!=$student->id)
+                return $this->sendError('Un étudiant avec cet email existe déjà', 403);
+        }
+       
         
         $cneOwner = DB::table('users')->where(['cne'=>$request->cne, 'userType'=>'student'])->first();
-        if($cneOwner->id!=$student->id)
-            return $this->sendError('Un étudiant avec cet cne existe déjà', 404);
-    
+        if(!is_null($cneOwner))
+        {
+            if($cneOwner->id!=$student->id)
+                return $this->sendError('Un étudiant avec cet cne existe déjà', 404);
+        }
+       
             $student->firstname=$request->firstname;
             $student->lastname=$request->lastname;
             $student->cne=$request->cne;

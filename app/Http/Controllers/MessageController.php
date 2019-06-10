@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Message;
 class MessageController extends Controller
 {
     /**
@@ -17,10 +18,9 @@ class MessageController extends Controller
 
     public function addMessage(Request $request)
     {
-
     
         DB::table("messages")->insert(["recipientId"=>$request->recipientId,
-                                        "senderId"=>5,
+                                        "senderId"=>$request->senderId,
                                         "text"=>$request->text,
                                         "state"=>"unread",
                                         "object"=>$request->object,
@@ -37,7 +37,14 @@ class MessageController extends Controller
     }
 
     public function getAllReceivedMessages($recipientId){
-        $messages = DB::table('messages')->where("recipientId", $recipientId)->get();
+        $messages = Message::where("recipientId", $recipientId)->get();
+        if($recipientId==1)
+        {
+            foreach($messages as $message)
+            {
+                $message['sender'] = DB::table('users')->where('id', $message->senderId)->first(['firstname', 'lastname']);
+            }
+        }
         return $this->sendResult($messages, 200);
     }
 

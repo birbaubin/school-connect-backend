@@ -24,7 +24,7 @@ class CreateStudentsTable extends Migration
             $table->string('gsm');
             $table->string('userType');
             $table->string('token')->nullable();
-            $table->timestamp('created_at')->nullable();
+            $table->timestamps();
         });
     }
 

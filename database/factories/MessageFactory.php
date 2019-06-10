@@ -1,5 +1,5 @@
 <?php
-use Illuminate\Support\Facades\Hash;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -11,14 +11,8 @@ use Illuminate\Support\Facades\Hash;
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Message::class, function (Faker\Generator $faker) {
     return [
-        'firstname' => $faker->firstName,
-        'lastname' => $faker->lastName,
-        'email' => $faker->email,
-        'password'=>Hash::make('password'),
-        'cne' => rand(1000000, 9999999),
-        'gsm' => rand(1000000, 9999999),
-        'userType' => 'student'
+        
     ];
 });
